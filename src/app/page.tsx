@@ -10,56 +10,45 @@ import {
   ChevronRight,
   Star,
   Heart,
-  Mail,
-  Phone,
-  CheckCircle2,
   Zap,
   ArrowRight,
   Facebook,
-  Instagram,
+  Instagram
 } from "lucide-react";
 
-// ===================== Images =====================
-import sandwichImg from "../../public/images/sandwich.jpg";
-import cakeImg from "../../public/images/cake.jpg";
-import bakeryInteriorImg from "../../public/images/bakery-interior.jpg";
-import deliveryImg from "../../public/images/delivery.jpg";
+// ------------------ DATA ------------------
+const features = [
+  { title: "Baked at 4 AM", desc: "Our ovens never sleep so your bread is always warm.", icon: <Clock className="text-red-500" /> },
+  { title: "Organic Flour", desc: "Sourced responsibly for the best texture and health.", icon: <Heart className="text-pink-500" /> },
+  { title: "Local Love", desc: "Proudly serving the heart of Liberia since day one.", icon: <Star className="text-yellow-400" /> },
+];
 
-// ===================== Data =====================
 const testimonials = [
   { name: "Sia K.", comment: "The meat pies remind me of home. Best in Monrovia!", rating: 5 },
   { name: "Mohammed B.", comment: "Super fast delivery to my office in Sinkor.", rating: 5 },
   { name: "Blessing J.", comment: "Their custom birthday cakes are literal works of art.", rating: 5 },
 ];
 
-const features = [
-  { title: "Baked at 4 AM", desc: "Our ovens never sleep so your bread is always warm.", icon: <Clock className="text-red-500" /> },
-  { title: "Organic Flour", desc: "Sourced responsibly for the best texture and health.", icon: <CheckCircle2 className="text-green-500" /> },
-  { title: "Local Love", desc: "Proudly serving the heart of Liberia since day one.", icon: <Heart className="text-pink-500" /> },
+const tickerItems = [
+  "Free delivery on orders over $50!",
+  "New: Red Velvet Donuts available now!",
+  "Open until 8 PM today!"
 ];
 
-// ===================== Animation Variants =====================
+// ------------------ ANIMATIONS ------------------
 const containerVar = {
   hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.2 } },
+  show: { opacity: 1, transition: { staggerChildren: 0.2 } }
 };
 
 const itemVar = {
   hidden: { opacity: 0, y: 20 },
-  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120 } },
+  show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 120 } }
 };
 
-// ===================== Main Component =====================
+// ------------------ COMPONENT ------------------
 export default function LovenBakeryPage() {
-  const [activeCategory, setActiveCategory] = useState("All");
   const [tickerIndex, setTickerIndex] = useState(0);
-
-  // Live Ticker
-  const tickerItems = [
-    "Free delivery on orders over $50!",
-    "New: Red Velvet Donuts available now!",
-    "Open until 8 PM today!",
-  ];
 
   useEffect(() => {
     const timer = setInterval(() => setTickerIndex((prev) => (prev + 1) % tickerItems.length), 4000);
@@ -67,9 +56,9 @@ export default function LovenBakeryPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#FFFDF9] text-slate-900 relative overflow-x-hidden selection:bg-red-100 selection:text-red-600">
-      
-      {/* ================= TOP ANNOUNCEMENT TICKER ================= */}
+    <div className="min-h-screen bg-[#FFFDF9] text-slate-900 selection:bg-red-100 selection:text-red-600 overflow-x-hidden">
+
+      {/* ================= TICKER ================= */}
       <div className="bg-red-600 text-white py-2 overflow-hidden whitespace-nowrap relative">
         <AnimatePresence mode="wait">
           <motion.p
@@ -113,6 +102,7 @@ export default function LovenBakeryPage() {
 
       {/* ================= HERO ================= */}
       <section className="relative px-6 py-20 lg:py-32 flex flex-col items-center text-center overflow-hidden">
+        {/* Hero background */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -120,6 +110,7 @@ export default function LovenBakeryPage() {
           className="absolute top-20 -left-20 w-96 h-96 bg-red-500/10 rounded-full blur-[100px]" 
         />
 
+        {/* Hero Text */}
         <motion.span 
           initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           className="bg-yellow-100 text-yellow-700 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-[0.2em] mb-6 inline-flex items-center gap-2"
@@ -136,7 +127,9 @@ export default function LovenBakeryPage() {
           TASTE THE <br /> 
           <span className="text-red-600 italic relative">
             MAGIC 
-            <svg className="absolute -bottom-2 left-0 w-full h-4 text-yellow-400" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 25 0 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="4" /></svg>
+            <svg className="absolute -bottom-2 left-0 w-full h-4 text-yellow-400" viewBox="0 0 100 10" preserveAspectRatio="none">
+              <path d="M0 5 Q 25 0 50 5 T 100 5" fill="none" stroke="currentColor" strokeWidth="4" />
+            </svg>
           </span>
           OF FLOUR.
         </motion.h1>
@@ -155,55 +148,31 @@ export default function LovenBakeryPage() {
         </motion.div>
 
         {/* Hero Image */}
-        <div className="w-full mt-12 max-w-7xl">
-          <Image
-            src={bakeryInteriorImg}
+        <div className="relative w-full max-w-5xl mt-16">
+          <Image 
+            src="/images/bakery-interior.jpg"
             alt="Bakery Interior"
             width={1200}
-            height={600}
-            className="rounded-3xl shadow-xl"
-            loading="eager"
-            style={{ width: "100%", height: "auto" }}
+            height={800}
+            priority
+            className="rounded-3xl object-cover w-full h-auto shadow-2xl"
           />
         </div>
       </section>
 
       {/* ================= FEATURES ================= */}
-      <section className="bg-white border-y border-slate-100 py-12">
+      <section className="bg-white border-y border-slate-100 py-16">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-12">
           {features.map((f, i) => (
-            <motion.div key={i} whileHover={{ y: -5 }} className="flex items-start gap-4 p-4">
+            <motion.div 
+              key={i} 
+              initial="hidden" animate="show" variants={itemVar} whileHover={{ y: -5 }}
+              className="flex items-start gap-4 p-4"
+            >
               <div className="bg-slate-50 p-4 rounded-2xl">{f.icon}</div>
               <div>
                 <h4 className="font-black text-lg">{f.title}</h4>
                 <p className="text-slate-500 text-sm">{f.desc}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </section>
-
-      {/* ================= MENU ================= */}
-      <section className="py-24 px-6 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-black mb-12 text-center">Our Delicious Menu</h2>
-        <div className="grid md:grid-cols-3 gap-8">
-          {[sandwichImg, cakeImg, deliveryImg].map((img, i) => (
-            <motion.div key={i} variants={itemVar} initial="hidden" animate="show" whileHover={{ scale: 1.05 }} className="bg-white rounded-3xl shadow-lg overflow-hidden">
-              <Image 
-                src={img} 
-                alt={`Menu item ${i}`} 
-                width={400} 
-                height={300} 
-                style={{ width: "100%", height: "auto" }} 
-                loading="lazy"
-              />
-              <div className="p-6">
-                <h3 className="font-black text-lg mb-2">Item {i + 1}</h3>
-                <p className="text-slate-500 text-sm mb-4">A delicious treat from our bakery.</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-black text-red-600">$5.50</span>
-                  <button className="bg-yellow-400 p-2 rounded-lg"><ShoppingCart /></button>
-                </div>
               </div>
             </motion.div>
           ))}
@@ -215,7 +184,12 @@ export default function LovenBakeryPage() {
         <h2 className="text-4xl font-black mb-16">Word on the Street</h2>
         <div className="grid md:grid-cols-3 gap-8">
           {testimonials.map((t, i) => (
-            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} className="bg-white border border-slate-100 p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all">
+            <motion.div 
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              className="bg-white border border-slate-100 p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all"
+            >
               <div className="flex justify-center gap-1 mb-4">
                 {[...Array(t.rating)].map((_, i) => <Star key={i} size={16} className="text-yellow-400 fill-current" />)}
               </div>
@@ -244,7 +218,6 @@ export default function LovenBakeryPage() {
           © 2026 L'Oven Bakery Liberia. Handcrafted in Sinkor.
         </div>
       </footer>
-
     </div>
   );
 }
